@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 
 public class PlayerController : MonoBehaviour
@@ -11,8 +10,6 @@ public class PlayerController : MonoBehaviour
     public float speed = 0;
     public TextMeshProUGUI countText;
     public GameObject winTextObject;
-    public GameObject restartButton;
-    public bool isGameActive;
 
     private Rigidbody rb;
     private int count;
@@ -30,12 +27,9 @@ public class PlayerController : MonoBehaviour
 
         SetCountText();
         winTextObject.SetActive(false);
-        restartButton.SetActive(false);
-
 
         pickupArray = GameObject.FindGameObjectsWithTag("PickUp");
         pickupTotal = pickupArray.Length;
-        Time.timeScale = 0f;
     }
 
     void OnMove(InputValue movementValue)
@@ -53,7 +47,6 @@ public class PlayerController : MonoBehaviour
         if (count >= pickupTotal)
         {
             winTextObject.SetActive(true);
-            restartButton.SetActive(true);
         }
     }
 
@@ -72,14 +65,5 @@ public class PlayerController : MonoBehaviour
             SetCountText();
             GetComponent<AudioSource>().Play();
         }
-    }
-
-    public void RestartGame() 
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-    public void StartGame()
-    {
-        Time.timeScale = 1f;
     }
 }
