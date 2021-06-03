@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
             other.gameObject.SetActive(false);
             count += 1;
             SetCountText();
+            GetComponent<AudioSource>().Play();
         }
     }
 }
