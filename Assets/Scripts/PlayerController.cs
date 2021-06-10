@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
 
     [SerializeField] AudioClip[] playerSounds;
-    public float soundFxVolume = 0;
+    public float soundFxVolume;
     AudioSource myAudioSource;
     AudioSource[] audios;
 
@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviour
 
     public void NearEndGameSound()
     {
-        audios[0].pitch = soundFxVolume;
+        //audios[0].pitch = soundFxVolume;
         audios[0].volume = soundFxVolume;
     }
 
@@ -171,7 +171,7 @@ public class PlayerController : MonoBehaviour
 
 public void StartGameSound()
     {
-        audios[0].pitch = soundFxVolume;
+        //audios[0].pitch = soundFxVolume;
         audios[0].volume = soundFxVolume;
     }
 }

@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NativeWebSocket;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     private float speed = 0;
-    public GameObject ball;
-    public Rigidbody ballRB;
-    public string messageWb;
+    private GameObject ball;
+    private Rigidbody ballRB;
+    private string messageWb;
+    public List<Button> ListMenu;
+    private Button activeButton;
     private float movementX;
     private float movementY;
     WebSocket websocket;
@@ -112,5 +115,24 @@ public class GameManager : MonoBehaviour
     {
         await websocket.Close();
     }
+
+    //private toggleActiveButton() 
+    //{
+    //    if (activeButton == null)
+    //    {
+    //        activeButton = ListMenu[0];
+    //    }
+    //    else 
+    //    {
+    //        if (activeButton == ListMenu[0])
+    //        {
+    //            activeButton = ListMenu[1];
+    //        }
+    //        else 
+    //        {
+    //            activeButton =
+    //        }
+    //    }
+    //}
 
 }
