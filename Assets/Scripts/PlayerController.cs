@@ -100,28 +100,28 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = Vector2.up * speed / 2;
             }
         }
-        //if (isTimer)
-        //{
-        //    if(timer > 0 && nextTarget > 0)
-        //    {
-        //        timer -= Time.deltaTime;
-        //        nextTarget -= Time.deltaTime;
-        //        timerText.text = "Temps restant: " + Mathf.FloorToInt(timer % 60).ToString();
-        //        nextTargetText.text = "Prochaine cible: " + Mathf.FloorToInt(nextTarget % 60).ToString();
+        if (isTimer)
+        {
+            if (timer > 0 && nextTarget > 0)
+            {
+                timer -= Time.deltaTime;
+                nextTarget -= Time.deltaTime;
+                timerText.text = "Temps restant: " + Mathf.FloorToInt(timer % 60).ToString();
+                nextTargetText.text = "Prochaine cible: " + Mathf.FloorToInt(nextTarget % 60).ToString();
 
-        //        if (timer <= 10 || nextTarget <= 2)
-        //        {
-        //            NearEndGameSound();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        isTimer = false;
-        //        timer = 0;
-        //        loseTextObject.SetActive(true);
-        //        restartButton.SetActive(true);
-        //    }
-        //}
+                if (timer <= 10 || nextTarget <= 2)
+                {
+                    NearEndGameSound();
+                }
+            }
+            else
+            {
+                isTimer = false;
+                timer = 0;
+                loseTextObject.SetActive(true);
+                restartButton.SetActive(true);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Obstacle"))
         {
             AudioClip clip = playerSounds[1];
             myAudioSource.PlayOneShot(clip);
