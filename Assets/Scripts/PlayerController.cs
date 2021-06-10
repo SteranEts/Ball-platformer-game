@@ -102,12 +102,12 @@ public class PlayerController : MonoBehaviour
         }
         if (isTimer)
         {
-            if(timer > 0 && nextTarget > 0)
+            if (timer > 0 && nextTarget > 0)
             {
                 timer -= Time.deltaTime;
                 nextTarget -= Time.deltaTime;
-                timerText.text = "temps restant: " + Mathf.FloorToInt(timer % 60).ToString();
-                nextTargetText.text = "prochaine cible: " + Mathf.FloorToInt(nextTarget % 60).ToString();
+                timerText.text = "Temps restant: " + Mathf.FloorToInt(timer % 60).ToString();
+                nextTargetText.text = "Prochaine cible: " + Mathf.FloorToInt(nextTarget % 60).ToString();
 
                 if (timer <= 10 || nextTarget <= 2)
                 {
@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
                 isTimer = false;
                 timer = 0;
                 loseTextObject.SetActive(true);
-               restartButton.SetActive(true);
+                restartButton.SetActive(true);
             }
         }
     }
