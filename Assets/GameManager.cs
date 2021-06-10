@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     private Rigidbody ballRB;
     private string messageWb;
     public List<Button> ListMenu;
+    public GameObject menu;
+    public GameObject player;
+    private PlayerController playerController;
     private Button activeButton;
     private float movementX;
     private float movementY;
@@ -60,6 +63,8 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        playerController = player.GetComponent<PlayerController>();
+        PauseMenu canvas = menu.GetComponent<PauseMenu>();
 #if !UNITY_WEBGL || UNITY_EDITOR
         websocket.DispatchMessageQueue();
 #endif
@@ -68,28 +73,31 @@ public class GameManager : MonoBehaviour
             switch (messageWb)
             {
                 case "Right":
-                    ballRB.AddForce(Vector3.right * speed);
+                    ballRB.AddForce(Vector3.right * speed/10);
                     break;
                 case "Left":
-                    ballRB.AddForce(Vector3.left * speed);
+                    ballRB.AddForce(Vector3.left * speed/10);
                     break;
                 case "Forward":
-                    ballRB.AddForce(Vector3.forward * speed);
+                    ballRB.AddForce(Vector3.forward * speed/10);
                     break;
                 case "Down":
-                    ballRB.AddForce(Vector3.back * speed);
+                    ballRB.AddForce(Vector3.back * speed/10);
                     break;
                 case "Jump":
-                    ballRB.AddForce(Vector3.up * speed);
+                    if (playerController.IsGrounded())
+                    {
+                        ballRB.velocity = Vector2.up * speed;
+                    }
                     break;
                 case "Select":
-                    //
+                    //canvas.Pause();
                     break;
                 case "ScrollUp":
-                    //
+                    canvas.Resume();
                     break;
                 case "ScrollDown":
-                    //
+                    playerController.switchSkins();
                     break;
                 case "Neutral":
                     //

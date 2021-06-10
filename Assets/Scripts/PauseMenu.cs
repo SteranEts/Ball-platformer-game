@@ -43,7 +43,7 @@ public class PauseMenu : MonoBehaviour
         GameIsPaused = false;
         //musicObject
     }
-    void Pause() 
+    public void Pause() 
     {
         if (!pauseMenuUI.activeInHierarchy)
         pauseMenuUI.SetActive(true);
