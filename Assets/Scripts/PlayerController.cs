@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 0;
+    private float distToGround = 0;
     public TextMeshProUGUI countText;
     public TextMeshProUGUI pickUpLeftText;
     public TextMeshProUGUI ballSpeedText;
@@ -31,13 +32,16 @@ public class PlayerController : MonoBehaviour
     private float nextTarget = 6;
     private bool isTimer = false;
 
+
     [SerializeField] AudioClip[] playerSounds;
+    public float soundFxVolume = 0;
     AudioSource myAudioSource;
     AudioSource[] audios;
 
     // Start is called before the first frame update
     void Start()
     {
+        distToGround = GetComponent<Collider>().bounds.extents.y;
         rb = GetComponent<Rigidbody>();
         count = 0;
 
@@ -83,31 +87,41 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Keyboard kb = InputSystem.GetDevice<Keyboard>();
         pickUpLeftText.text = "Cibles restantes: " + (pickupTotal - count).ToString();
         ballSpeedText.text = "Vitesse balle: " + speed.ToString();
 
-        if (isTimer)
-        {
-            if(timer > 0 && nextTarget > 0)
-            {
-                timer -= Time.deltaTime;
-                nextTarget -= Time.deltaTime;
-                timerText.text = "Temps restant: " + Mathf.FloorToInt(timer % 60).ToString();
-                nextTargetText.text = "Prochaine cible: " + Mathf.FloorToInt(nextTarget % 60).ToString();
 
-                if (timer <= 10 || nextTarget <= 2)
-                {
-                    NearEndGameSound();
-                }
-            }
-            else
+        if (kb.spaceKey.wasPressedThisFrame) 
+        {
+            Debug.Log("Space Pressed " + rb.velocity);
+            if (IsGrounded())
             {
-                isTimer = false;
-                timer = 0;
-                loseTextObject.SetActive(true);
-                restartButton.SetActive(true);
+                rb.velocity = Vector2.up * speed / 2;
             }
         }
+        //if (isTimer)
+        //{
+        //    if(timer > 0 && nextTarget > 0)
+        //    {
+        //        timer -= Time.deltaTime;
+        //        nextTarget -= Time.deltaTime;
+        //        timerText.text = "Temps restant: " + Mathf.FloorToInt(timer % 60).ToString();
+        //        nextTargetText.text = "Prochaine cible: " + Mathf.FloorToInt(nextTarget % 60).ToString();
+
+        //        if (timer <= 10 || nextTarget <= 2)
+        //        {
+        //            NearEndGameSound();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        isTimer = false;
+        //        timer = 0;
+        //        loseTextObject.SetActive(true);
+        //        restartButton.SetActive(true);
+        //    }
+        //}
     }
 
     private void OnTriggerEnter(Collider other)
@@ -116,7 +130,7 @@ public class PlayerController : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             count += 1;
-            nextTarget = 6;
+            //nextTarget = 6;
             StartGameSound();
             SetCountText();
             //GetComponent<AudioSource>().Play();
@@ -146,13 +160,18 @@ public class PlayerController : MonoBehaviour
 
     public void NearEndGameSound()
     {
-        audios[0].pitch = 1.5f;
-        audios[0].volume = 1.5f;
+        audios[0].pitch = soundFxVolume;
+        audios[0].volume = soundFxVolume;
     }
 
-    public void StartGameSound()
+    bool IsGrounded() {
+        return Physics.Raycast(transform.position, -Vector3.up, (float)(distToGround + 0.1));
+    }
+
+
+public void StartGameSound()
     {
-        audios[0].pitch = 1.0f;
-        audios[0].volume = 1.0f;
+        audios[0].pitch = soundFxVolume;
+        audios[0].volume = soundFxVolume;
     }
 }

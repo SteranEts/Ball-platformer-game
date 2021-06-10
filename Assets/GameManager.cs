@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
                     ballRB.AddForce(Vector3.back * speed);
                     break;
                 case "Jump":
-                    //
+                    ballRB.AddForce(Vector3.up * speed);
                     break;
                 case "Select":
                     //

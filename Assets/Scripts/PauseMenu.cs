@@ -2,16 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
     public GameObject pauseMenuUI;
     public GameObject homeMenu;
-    public GameObject howToMenu;
+    public GameObject uiHome;
+    public GameObject uiOptions;
+    public GameObject soundFxObject;
+    public GameObject musicObject;
+
+    public GameObject sliderFx;
+    public GameObject sliderMusic;
     // Update is called once per frame
     void Update()
     {
+        soundFxObject.GetComponent<PlayerController>().soundFxVolume = sliderFx.GetComponent<Slider>().value;
+        musicObject.GetComponent<AudioSource>().volume = sliderMusic.GetComponent<Slider>().value;
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             if (GameIsPaused)
@@ -31,6 +41,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
+        //musicObject
     }
     void Pause() 
     {
@@ -39,9 +50,11 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         GameIsPaused = true;
     }
-    void ShowHowTo() 
+
+    public void toggleModeMenu() 
     {
-        homeMenu.SetActive(false);
-        howToMenu.SetActive(true);
+        bool stateBefore = uiHome.activeSelf;
+        uiHome.SetActive(!stateBefore);
+        uiOptions.SetActive(stateBefore);
     }
 }
